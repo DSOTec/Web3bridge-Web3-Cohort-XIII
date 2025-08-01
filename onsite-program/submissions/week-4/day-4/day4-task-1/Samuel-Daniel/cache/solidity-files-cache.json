@@ -1,0 +1,41 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/home/dsotech/Documents/daytwo/Web3bridge-Web3-Cohort-XIII/onsite-program/submissions/week-4/day-4/day4-task-1/Samuel-Daniel/contracts/Access.sol": {
+      "lastModificationDate": 1753997383570,
+      "contentHash": "dbaa5dbf47c064232f5b13d0417e94da",
+      "sourceName": "contracts/Access.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "Access"
+      ]
+    }
+  }
+}
