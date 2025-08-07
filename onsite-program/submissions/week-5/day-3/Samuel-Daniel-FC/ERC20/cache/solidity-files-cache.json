@@ -1,0 +1,117 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/home/dsotech/Documents/daytwo/Web3bridge-Web3-Cohort-XIII/onsite-program/submissions/week-5/day-3/Samuel-Daniel-FC/ERC20/contracts/ERC20.sol": {
+      "lastModificationDate": 1754525196962,
+      "contentHash": "2ac75c17e587675bdcd2a32f14bc4a1a",
+      "sourceName": "contracts/ERC20.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "ERC20"
+      ]
+    },
+    "/home/dsotech/Documents/daytwo/Web3bridge-Web3-Cohort-XIII/onsite-program/submissions/week-5/day-3/Samuel-Daniel-FC/ERC20/contracts/IERC20.sol": {
+      "lastModificationDate": 1754525196964,
+      "contentHash": "cb0a3ea40698fc72ba6c7b49bb5ac694",
+      "sourceName": "contracts/IERC20.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "IERC20"
+      ]
+    },
+    "/home/dsotech/Documents/daytwo/Web3bridge-Web3-Cohort-XIII/onsite-program/submissions/week-5/day-3/Samuel-Daniel-FC/ERC20/contracts/ERC20Factory.sol": {
+      "lastModificationDate": 1754525196963,
+      "contentHash": "28eead785e1751bdf4b5cb789f99a0d4",
+      "sourceName": "contracts/ERC20Factory.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./ERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "ERC20Factory"
+      ]
+    }
+  }
+}
