@@ -6,7 +6,7 @@ describe("Employee Contract", function () {
   let employee: Employee;
   let owner: any, user1: any, user2: any, outsider: any;
 
- beforeEach(async () => {
+  beforeEach(async () => {
     [owner, user1, user2, outsider] = await ethers.getSigners();
     const EmployeeFactory = await ethers.getContractFactory("Employee");
     employee = (await EmployeeFactory.deploy()) as Employee;
@@ -15,9 +15,10 @@ describe("Employee Contract", function () {
     await employee.connect(owner).setOwner(owner.address);
   });
 
-
   it("should not allow owner to be set twice", async () => {
-    await expect(employee.connect(owner).setOwner(user1.address)).to.be.revertedWith("Unauthorized()");
+    await expect(
+      employee.connect(owner).setOwner(user1.address)
+    ).to.be.revertedWithCustomError(employee, "Unauthorized");
   });
 
   it("should register a user correctly", async () => {
@@ -33,14 +34,14 @@ describe("Employee Contract", function () {
   it("should reject invalid role", async () => {
     await expect(
       employee.connect(owner).registerUser(user1.address, "Bob", ethers.parseEther("1000"), 5)
-    ).to.be.revertedWith("InvalidRole(5)");
+    ).to.be.revertedWithCustomError(employee, "InvalidRole").withArgs(5);
   });
 
   it("should reject duplicate registration", async () => {
     await employee.connect(owner).registerUser(user1.address, "Alice", ethers.parseEther("1000"), 1); // Admin
     await expect(
       employee.connect(owner).registerUser(user1.address, "Alice", ethers.parseEther("1000"), 1)
-    ).to.be.revertedWith(`AlreadyRegistered("${user1.address}")`);
+    ).to.be.revertedWithCustomError(employee, "AlreadyRegistered").withArgs(user1.address);
   });
 
   it("should disburse salary within limit", async () => {
@@ -58,13 +59,16 @@ describe("Employee Contract", function () {
     await employee.connect(owner).registerUser(user1.address, "Alice", ethers.parseEther("1000"), 0);
     await expect(
       employee.connect(owner).disburseSalary(user1.address, ethers.parseEther("1500"))
-    ).to.be.revertedWith("SalaryExceeded(1500000000000000000, 1000000000000000000)");
+    ).to.be.revertedWithCustomError(employee, "SalaryExceeded").withArgs(
+      ethers.parseEther("1500"),
+      ethers.parseEther("1000")
+    );
   });
 
   it("should reject salary disbursement to non-employee", async () => {
     await expect(
       employee.connect(owner).disburseSalary(user2.address, ethers.parseEther("100"))
-    ).to.be.revertedWith(`NotEmployed("${user2.address}")`);
+    ).to.be.revertedWithCustomError(employee, "NotEmployed").withArgs(user2.address);
   });
 
   it("should return all registered users", async () => {
@@ -78,6 +82,6 @@ describe("Employee Contract", function () {
   it("should enforce onlyOwner modifier", async () => {
     await expect(
       employee.connect(outsider).registerUser(user1.address, "Alice", ethers.parseEther("1000"), 0)
-    ).to.be.revertedWith("Unauthorized()");
+    ).to.be.revertedWithCustomError(employee, "Unauthorized");
   });
 });

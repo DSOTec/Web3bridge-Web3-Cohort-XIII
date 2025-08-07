@@ -29,7 +29,7 @@ contract EmployeeManager is IEmployee {
         _;
     }
 
-    function setOwner(address newOwner) external override {
+    function setOwner(address newOwner) external {
         if (owner != address(0)) revert Unauthorized(); // Only allow once
         owner = newOwner;
     }
