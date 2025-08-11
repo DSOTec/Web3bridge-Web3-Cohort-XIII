@@ -35,10 +35,36 @@ contract PiggyBank is IPiggyBank {
         deposits.push(Deposit({amount: amount, unlockTime: block.timestamp + lockPeriod, isERC20: true, tokenAddress: token }));
     }
 
-    function withdraw(uint256 index) external onlyOwner{{
-        Deposit storage dep = deposits[index];;
+    function withdraw(uint256 index) external onlyOwner{
+        Deposit storage dep = deposits[index];
         require(dep.amount > 0, "Already withdrawn");
+        uint256 amount = dep.amount;
+        dep.amount = 0;
+        if(block.timestamp < dep.unlockTime){
+            uint256 fee = (amount * 3)/ 100;
+            amount -= fee;
+            if(dep.isERC20){
+                IERC20(dep.tokenAddress).transfer(factoryAdmin, fee);
+                IERC20(dep.tokenAddress).transfer(owner, amount);
+            } else{
+                payable(factoryAdmin).transfer(fee);
+                payable(owner).transfer(amount);
+            } else{
+            if(dep.isERC20){
+           IERC20(dep.tokenAddress).transfer(owner, amount);
+          }else{
+         payable(owner).tranfer(amount);
+        }
+            }
+            }
+        }
+    function  getDeposit(uint256 index) external view returns (Deposit memory){
+        return deposits[index];
     }
 
-
+    function getDepositCount() external view returns (uint256){
+        return deposits.length;
 }
+
+
+
