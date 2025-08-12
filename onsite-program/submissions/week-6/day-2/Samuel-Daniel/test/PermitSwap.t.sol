@@ -98,12 +98,11 @@ contract MockERC20Permit is IERC20Permit {
 contract MockRouter {
     function swapExactTokensForTokens(
         uint amountIn,
-        uint /* amountOutMin */,
+        uint,
         address[] calldata path,
         address to,
-        uint /* deadline */
+        uint
     ) external returns (uint[] memory amounts) {
-        // Simulate a simple 1:1 swap
         IERC20(path[0]).transferFrom(msg.sender, address(this), amountIn);
         IERC20(path[1]).transfer(to, amountIn);
         
@@ -131,36 +130,31 @@ contract PermitSwapTest is Test {
     address private user = vm.addr(userPrivateKey);
 
     function setUp() public {
-        // Set up the test environment
         signPermit = new SignPermit();
         permitSwap = new PermitSwap();
         tokenIn = new MockERC20Permit();
         tokenOut = new MockERC20Permit();
         router = new MockRouter();
-        
-        // Mint tokens to the user
+
         tokenIn.mint(user, 1000 ether);
-        
-        // Mint tokens to the router to simulate available liquidity
+
         tokenOut.mint(address(router), 1000 ether);
-        
-        // Approve the router to spend tokens from the contract
+
         tokenOut.approve(address(router), type(uint256).max);
     }
     
     function testPermitAndSwap() public {
-        // Arrange
         uint256 amount = 100 ether;
         uint256 deadline = block.timestamp + 1 hours;
         
-        // Get initial balances
+
         uint256 initialUserTokenIn = tokenIn.balanceOf(user);
         uint256 initialUserTokenOut = tokenOut.balanceOf(user);
         
-        // Get current nonce for the user
+
         uint256 nonce = tokenIn.nonces(user);
         
-        // Get permit signature
+
         (uint8 v, bytes32 r, bytes32 s) = signPermit.getPermitSignature(
             userPrivateKey,
             tokenIn.name(),
@@ -173,12 +167,11 @@ contract PermitSwapTest is Test {
             deadline
         );
         
-        // Prepare the swap path
+
         address[] memory path = new address[](2);
         path[0] = address(tokenIn);
         path[1] = address(tokenOut);
-        
-        // Act
+
         vm.prank(user);
         permitSwap.permitAndSwap(
             address(tokenIn),
@@ -190,7 +183,7 @@ contract PermitSwapTest is Test {
             0 // minOut
         );
         
-        // Assert
+
         uint256 finalUserTokenIn = tokenIn.balanceOf(user);
         uint256 finalUserTokenOut = tokenOut.balanceOf(user);
         
@@ -200,14 +193,14 @@ contract PermitSwapTest is Test {
     }
     
     function test_RevertWhen_DeadlineExpired() public {
-        // Arrange
+
         uint256 amount = 100 ether;
         uint256 deadline = block.timestamp - 1; // Already expired
         
-        // Get current nonce for the user
+
         uint256 nonce = tokenIn.nonces(user);
         
-        // Get permit signature with expired deadline
+
         (uint8 v, bytes32 r, bytes32 s) = signPermit.getPermitSignature(
             userPrivateKey,
             tokenIn.name(),
@@ -220,22 +213,20 @@ contract PermitSwapTest is Test {
             deadline
         );
         
-        // Prepare the swap path
+
         address[] memory path = new address[](2);
         path[0] = address(tokenIn);
         path[1] = address(tokenOut);
-        
-        // Get initial balances
+
         uint256 initialUserTokenIn = tokenIn.balanceOf(user);
         uint256 initialUserTokenOut = tokenOut.balanceOf(user);
-        
-        // Act & Assert
+
         vm.prank(user);
         
-        // Expect a revert with the correct error message
+
         vm.expectRevert(bytes("PERMIT_DEADLINE_EXPIRED"));
         
-        // Attempt the permit and swap with expired deadline
+
         permitSwap.permitAndSwap(
             address(tokenIn),
             address(router),

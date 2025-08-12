@@ -19,7 +19,6 @@ contract SignPermit is Test {
         uint256 nonce,
         uint256 deadline
     ) public returns (uint8 v, bytes32 r, bytes32 s) {
-        // Get the domain separator
         bytes32 domainSeparator = keccak256(
             abi.encode(
                 keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"),
@@ -30,7 +29,6 @@ contract SignPermit is Test {
             )
         );
 
-        // Encode the permit data
         bytes32 structHash = keccak256(
             abi.encode(
                 PERMIT_TYPEHASH,
@@ -42,20 +40,16 @@ contract SignPermit is Test {
             )
         );
 
-        // Create the digest
         bytes32 digest = keccak256(
             abi.encodePacked("\x19\x01", domainSeparator, structHash)
         );
 
-        // Sign the digest with the private key
         (v, r, s) = vm.sign(privateKey, digest);
-        
-        // Adjust the v value if needed (27/28 for legacy, 0/1 for geth)
+
         if (v < 27) {
             v += 27;
         }
-        
-        // Return the signature components
+
         return (v, r, s);
     }
 }
