@@ -194,33 +194,33 @@ async function main() {
     // Update box price
     const newPrice = ethers.parseEther("0.15");
     await lootBox.setBoxPrice(newPrice);
-    console.log(`✅ Updated box price to ${ethers.formatEther(newPrice)} ETH`);
+    console.log(` Updated box price to ${ethers.formatEther(newPrice)} ETH`);
 
     // Update reward weight
     await lootBox.updateReward(0, 600, true);
-    console.log("✅ Updated reward 0 weight to 600");
+    console.log(" Updated reward 0 weight to 600");
 
     // Pause contract
     await lootBox.pause();
-    console.log("✅ Contract paused");
+    console.log(" Contract paused");
 
     // Try to open box while paused (should fail)
     try {
         await lootBox.connect(player1).openBox({ value: newPrice });
-        console.log("❌ Box opened while paused (unexpected)");
+        console.log(" Box opened while paused (unexpected)");
     } catch (error) {
-        console.log("✅ Box opening correctly blocked while paused");
+        console.log(" Box opening correctly blocked while paused");
     }
 
     // Unpause
     await lootBox.unpause();
-    console.log("✅ Contract unpaused");
+    console.log(" Contract unpaused");
 
     // Withdraw funds
     const contractBalance = await ethers.provider.getBalance(lootBoxAddress);
     if (contractBalance > 0) {
         await lootBox.withdraw();
-        console.log(`✅ Withdrew ${ethers.formatEther(contractBalance)} ETH from contract`);
+        console.log(` Withdrew ${ethers.formatEther(contractBalance)} ETH from contract`);
     }
 
     console.log("\n=== Demo Complete ===");
