@@ -4,7 +4,7 @@ async function main() {
     const [deployer] = await ethers.getSigners();
     console.log("Minting with account:", deployer.address);
 
-    const contractAddress = "0xF0BcD0ce2e676386484010315A26Cbd8E465d435";
+    const contractAddress = "0x9858C0fC7aE3c5C84f56dC0c571d4fAaC539e2e6";
     const nft = await ethers.getContractAt("ClockNFT", contractAddress);
 
     // Get the current token counter
@@ -35,7 +35,7 @@ async function main() {
         console.error("Error decoding metadata:", error);
     }
     
-    console.log(`\nView your NFT on Rarible: https://testnet.rarible.com/collection/sepolia/${contractAddress}/token/${tokenId}`);
+    console.log(`View your NFT on Rarible: https://sepolia.etherscan.io/token/${contractAddress}/instance/${tokenId}`);
 }
 
 main().catch((error) => {
