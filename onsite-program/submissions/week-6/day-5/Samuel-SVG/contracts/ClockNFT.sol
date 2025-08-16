@@ -11,6 +11,7 @@ contract ClockNFT is ERC721, Ownable {
     using Strings for uint256;
     
     uint256 public tokenCounter;
+    mapping(uint256 => uint256) private _mintTimestamps;
 
     constructor() ERC721("ClockNFT", "CLOCK") Ownable(msg.sender) {
         tokenCounter = 0;
@@ -18,14 +19,15 @@ contract ClockNFT is ERC721, Ownable {
     
     function mint() public {
         _safeMint(msg.sender, tokenCounter);
+        _mintTimestamps[tokenCounter] = block.timestamp;
         tokenCounter++;
     }
 
     function tokenURI(uint256 tokenId) public view virtual override(ERC721) returns (string memory) {
         require(_ownerOf(tokenId) != address(0), "Token does not exist");
-
-        // Generate the SVG
-        string memory svg = generateSVG(block.timestamp);
+        
+        uint256 mintTime = _mintTimestamps[tokenId];
+        string memory svg = generateSVG(mintTime);
         
         // Encode the SVG to base64
         string memory svgBase64 = Base64.encode(bytes(svg));
@@ -34,11 +36,11 @@ contract ClockNFT is ERC721, Ownable {
         string memory json = string(
             abi.encodePacked(
                 '{"name":"Clock #', tokenId.toString(), '",',
-                '"description":"On-chain SVG clock NFT showing the current time on the blockchain.",',
+                '"description":"On-chain SVG clock NFT showing the time when it was minted.",',
                 '"image_data":"data:image/svg+xml;base64,', svgBase64, '",',
                 '"external_url":"https://your-website.com/clocknft/",',
                 '"attributes":[',
-                '{"trait_type":"Generated","value":"', block.timestamp.toString(), '"}',
+                '{"trait_type":"Minted At","display_type":"date","value":', mintTime.toString(), '}',
                 ']}'
             )
         );
@@ -52,35 +54,91 @@ contract ClockNFT is ERC721, Ownable {
         );
     }
 
-    function generateSVG(uint256 timestamp) internal view returns (string memory) {
-        uint256 hour = (timestamp / 3600) % 12;
+    function getSVGHeader() internal pure returns (string memory) {
+        return '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n<svg width="1000" height="1000" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision">\n  <rect width="100%" height="100%" fill="#1a1a2e"/>\n  <rect x="100" y="400" width="800" height="200" rx="30" fill="#0f3460" stroke="#4e9f3d" stroke-width="5"/>\n';
+    }
+    
+    function getSVGFooter() internal pure returns (string memory) {
+        return '  <text x="500" y="550" font-family="Arial, sans-serif" font-size="24" fill="#e94560" text-anchor="middle">Minted Time (UTC)</text>\n</svg>';
+    }
+    
+    function generateSVG(uint256 timestamp) internal pure returns (string memory) {
+        // Convert timestamp to hours, minutes, seconds
+        uint256 hour = (timestamp / 3600) % 24;
         uint256 minute = (timestamp / 60) % 60;
         uint256 second = timestamp % 60;
         
-        // Calculate angles for clock hands
-        uint256 hourAngle = (hour * 30 + minute / 2) % 360; // 30 degrees per hour, 0.5 degrees per minute
-        uint256 minuteAngle = (minute * 6) % 360; // 6 degrees per minute
-        uint256 secondAngle = (second * 6) % 360; // 6 degrees per second
-
-        // Get clock markings
-        string memory markings = getClockMarkings();
-        
-        // Generate the SVG
-        return string(
+        // Format time as HH:MM:SS
+        string memory timeString = string(
             abi.encodePacked(
-                '<?xml version="1.0" encoding="UTF-8" standalone="no"?>',
-                '<svg width="1000" height="1000" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">',
-                '<rect width="100%" height="100%" fill="#f0f0f0"/>',
-                '<circle cx="500" cy="500" r="450" fill="#fff" stroke="#333" stroke-width="20"/>',
-                markings, // Add the clock markings
-                // Clock hands
-                getClockHand(500, 500, 200, 20, hourAngle, "#333"),   // Hour hand
-                getClockHand(500, 500, 300, 12, minuteAngle, "#666"), // Minute hand
-                getClockHand(500, 500, 350, 6, secondAngle, "#f00"),  // Second hand
-                '<circle cx="500" cy="500" r="20" fill="#333"/>',    // Center dot
-                '</svg>'
+                formatTimeUnit(hour), 
+                ':', 
+                formatTimeUnit(minute),
+                ':',
+                formatTimeUnit(second)
             )
         );
+        
+        // Format date (day/month/year)
+        (uint256 year, uint256 month, uint256 day) = getDateComponents(timestamp);
+        string memory dateString = string(
+            abi.encodePacked(
+                formatTimeUnit(day),
+                '/',
+                formatTimeUnit(month),
+                '/',
+                year.toString()
+            )
+        );
+
+        // Get SVG parts
+        string memory header = getSVGHeader();
+        string memory footer = getSVGFooter();
+        
+        // Create digital clock display
+        string memory clockDisplay = string(
+            abi.encodePacked(
+                '<text x="500" y="500" font-family="Arial, monospace" font-size="100" fill="#4e9f3d" text-anchor="middle" font-weight="bold">',
+                timeString,
+                '</text>',
+                '\n  <text x="500" y="650" font-family="Arial, sans-serif" font-size="36" fill="#e94560" text-anchor="middle">',
+                dateString,
+                '</text>'
+            )
+        );
+        
+        // Combine all parts
+        return string(
+            abi.encodePacked(
+                header,
+                '  ', clockDisplay, '\n',
+                footer
+            )
+        );
+    }
+    
+    function formatTimeUnit(uint256 unit) internal pure returns (string memory) {
+        if (unit < 10) {
+            return string(abi.encodePacked('0', unit.toString()));
+        }
+        return unit.toString();
+    }
+    
+    function getDateComponents(uint256 timestamp) internal pure returns (uint256 year, uint256 month, uint256 day) {
+        // This is a simplified version that approximates the date
+        // For a production contract, you'd want to use a more accurate date library
+        uint256 daysSinceEpoch = timestamp / 86400;
+        year = 1970 + (daysSinceEpoch * 100) / 36525; // Approximate
+        uint256 daysInYear = (year - 1969) / 4 + (year - 1970) * 365;
+        uint256 dayOfYear = daysSinceEpoch - daysInYear;
+        
+        // Simple month calculation (approximate)
+        month = (dayOfYear % 365) / 30 + 1;
+        if (month > 12) month = 12;
+        
+        // Simple day calculation (approximate)
+        day = (dayOfYear % 30) + 1;
+        if (day > 31) day = 31;
     }
     
     function getClockMarkings() internal view returns (string memory) {
@@ -133,15 +191,48 @@ contract ClockNFT is ERC721, Ownable {
     function getClockHand(uint256 x, uint256 y, uint256 length, uint256 width, uint256 rotation, string memory color) 
         internal pure returns (string memory) 
     {
-        return string(
+        // Adjust rotation to start from 12 o'clock (0 degrees at top)
+        uint256 svgRotation = (rotation + 90) % 360;
+        
+        // Create the transform string
+        string memory transform = string(
             abi.encodePacked(
-                '<line x1="', x.toString(), '" y1="', y.toString(), 
-                '" x2="', x.toString(), '" y2="', (y - length).toString(), 
-                '" stroke="', color, '" stroke-width="', width.toString(), 
-                '" stroke-linecap="round" transform="rotate(', rotation.toString(), 
-                ',', x.toString(), ',', y.toString(), ')"/>'
+                'rotate(', 
+                svgRotation.toString(), 
+                ',', 
+                x.toString(), 
+                ',', 
+                y.toString(), 
+                ')'
             )
         );
+        
+        // Create the line element
+        string memory line = string(
+            abi.encodePacked(
+                '<line x1="', x.toString(), 
+                '" y1="', y.toString(), 
+                '" x2="', x.toString(), 
+                '" y2="', (y - length).toString(), 
+                '" stroke="', color, 
+                '" stroke-width="', width.toString(), 
+                '" stroke-linecap="round"',
+                ' transform="', transform, '"/>'
+            )
+        );
+        
+        // Create the circle element
+        string memory circle = string(
+            abi.encodePacked(
+                '<circle cx="', x.toString(), 
+                '" cy="', y.toString(), 
+                '" r="', (width / 2).toString(), 
+                '" fill="', color, '"',
+                ' transform="', transform, '"/>'
+            )
+        );
+        
+        return string(abi.encodePacked(line, circle));
     }
     
     // Sine table for 0-90 degrees (scaled by 1000 for integer math)
