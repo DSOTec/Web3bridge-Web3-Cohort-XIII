@@ -14,7 +14,7 @@ async function main() {
 
     // Get contract instances
     const usdc = await ethers.getContractAt("IERC20", USDC_ADDRESS);
-    const router = await ethers.getContractAt("IUniswapV2Router02", UNISWAP_V2_ROUTER);
+    const router = await ethers.getContractAt("contracts/interface/IUniswapV2Router02.sol:IUniswapV2Router02", UNISWAP_V2_ROUTER);
 
     console.log("=== SWAP EXACT ETH FOR TOKENS DEMO ===");
     console.log("Swapping ETH for USDC");
