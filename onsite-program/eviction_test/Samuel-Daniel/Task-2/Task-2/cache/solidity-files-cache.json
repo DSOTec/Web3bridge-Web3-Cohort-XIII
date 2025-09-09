@@ -1,0 +1,258 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/home/dsotech/Documents/daytwo/Web3bridge-Web3-Cohort-XIII/onsite-program/eviction_test/Samuel-Daniel/Task-2/Task-2/contracts/Lock.sol": {
+      "lastModificationDate": 1755540231079,
+      "contentHash": "5daa40c22d3a9841af8edcaaabc57c7c",
+      "sourceName": "contracts/Lock.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "Lock"
+      ]
+    },
+    "/home/dsotech/Documents/daytwo/Web3bridge-Web3-Cohort-XIII/onsite-program/eviction_test/Samuel-Daniel/Task-2/Task-2/contracts/interface/IERC20.sol": {
+      "lastModificationDate": 1755540334596,
+      "contentHash": "310c50b395fffb07a5eafd5015710066",
+      "sourceName": "contracts/interface/IERC20.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "IERC20"
+      ]
+    },
+    "/home/dsotech/Documents/daytwo/Web3bridge-Web3-Cohort-XIII/onsite-program/eviction_test/Samuel-Daniel/Task-2/Task-2/contracts/interface/IUNISWAPPAIR.sol": {
+      "lastModificationDate": 1755540334597,
+      "contentHash": "269382948d780365c5a1ee5f02fe53ae",
+      "sourceName": "contracts/interface/IUNISWAPPAIR.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "IUniswapV2Pair"
+      ]
+    },
+    "/home/dsotech/Documents/daytwo/Web3bridge-Web3-Cohort-XIII/onsite-program/eviction_test/Samuel-Daniel/Task-2/Task-2/contracts/interface/IUniswapV2Factory.sol": {
+      "lastModificationDate": 1755540720618,
+      "contentHash": "3727de04b5f01211ade04bc21716ad55",
+      "sourceName": "contracts/interface/IUniswapV2Factory.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IUniswapV2Factory"
+      ]
+    },
+    "/home/dsotech/Documents/daytwo/Web3bridge-Web3-Cohort-XIII/onsite-program/eviction_test/Samuel-Daniel/Task-2/Task-2/contracts/interface/IUniswapV2Pair.sol": {
+      "lastModificationDate": 1755540922626,
+      "contentHash": "8846a68a361f8e3847fbb9add8146b7f",
+      "sourceName": "contracts/interface/IUniswapV2Pair.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IUniswapV2Pair"
+      ]
+    },
+    "/home/dsotech/Documents/daytwo/Web3bridge-Web3-Cohort-XIII/onsite-program/eviction_test/Samuel-Daniel/Task-2/Task-2/contracts/interface/IUniswapV2Router01.sol": {
+      "lastModificationDate": 1755540334597,
+      "contentHash": "799b03649e90dab354b63cb70c4fb2c9",
+      "sourceName": "contracts/interface/IUniswapV2Router01.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.28"
+      ],
+      "artifacts": [
+        "IUniswapV2Router01",
+        "IUniswapV2Router02"
+      ]
+    },
+    "/home/dsotech/Documents/daytwo/Web3bridge-Web3-Cohort-XIII/onsite-program/eviction_test/Samuel-Daniel/Task-2/Task-2/contracts/interface/IUniswapV2Router02.sol": {
+      "lastModificationDate": 1755540683373,
+      "contentHash": "454e80b1285e43c77ad55a8f6c89fc3c",
+      "sourceName": "contracts/interface/IUniswapV2Router02.sol",
+      "solcConfig": {
+        "version": "0.8.28",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IUniswapV2Router02"
+      ]
+    }
+  }
+}
